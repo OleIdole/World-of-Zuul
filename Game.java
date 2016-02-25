@@ -30,6 +30,19 @@ public class Game
         createRooms();
         parser = new Parser();
     }
+    
+    /**
+     * Main method that initializes the game by creating a new game,
+     * then running the play command.
+     * 
+     * @param args 
+     */
+    public static void main(String[] args)
+    {
+        Game game = new Game();
+        game.play();
+
+    }
 
     /**
      * Create all the rooms and link their exits together.
