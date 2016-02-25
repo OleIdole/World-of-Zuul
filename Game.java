@@ -17,6 +17,8 @@
 
 public class Game 
 {
+    
+    //TEst kommentar
     private Parser parser;
     private Room currentRoom;
         
