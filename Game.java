@@ -15,11 +15,6 @@
  * @version 2011.07.31
  */
 
-
-/**
- * test
- * @author OleMartin
- */
 public class Game 
 {
     private Parser parser;
