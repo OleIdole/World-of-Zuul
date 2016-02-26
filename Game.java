@@ -118,7 +118,15 @@ public class Game
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
-            finished = processCommand(command);
+            if(processCommand(command))
+            {
+            finished = true;
+            }
+            if(currentRoom.checkIfEmpty())
+            {
+                System.out.println("GAME OVER!");
+                finished = true;
+            }
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
@@ -161,6 +169,14 @@ public class Game
         else if (commandWord.equals("go")) {
             goRoom(command);
         }
+        else if (commandWord.equals("look"))
+        {
+            look();
+        }
+        else if (commandWord.equals("fart"))
+        {
+            fart();
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -177,13 +193,32 @@ public class Game
      */
     private void printHelp() 
     {
+        CommandWords commandWords = new CommandWords();
         System.out.println();
         System.out.println("You are lost, but must keep going.");
         System.out.print("There are many dangerous areas, proceed");
         System.out.println(" with caution!");
         System.out.println();
         System.out.println("Your command words are:");
-        System.out.println("   go quit help");
+        System.out.println(commandWords.allCommandWords());
+    }
+    
+    /**
+     * Here we look around in the room, retrieve full information about
+     * the room.
+     */
+    private void look()
+    {
+        System.out.println(currentRoom.getLongDescription());
+    }
+    
+    /**
+     * Here we release some gass by farting.
+     */
+    private void fart()
+    {
+        System.out.println("You take a look around you, then fart loudly!");
+        System.out.println("Something stinks!");
     }
 
     /** 
@@ -205,7 +240,7 @@ public class Game
         nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
-            System.out.println("There is no door!");
+            System.out.println("You can't go there!");
         }
         else {
             currentRoom = nextRoom;
@@ -214,11 +249,7 @@ public class Game
     }
 
     private void printLocationInfo() {
-        System.out.println("You are " + currentRoom.getDescription());
-
-        System.out.print(currentRoom.getExitString());
-        
-        System.out.println();
+        System.out.println(currentRoom.getLongDescription());
     }
 
     /** 

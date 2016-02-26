@@ -47,6 +47,8 @@ public class Room
     /**
      * Return a description of the room's exits,
      * for example, "Exits: north west".
+     * If there are no exits, returns the description
+     * "There are no exits!".
      * 
      * @return A description of the available exits.
      */
@@ -57,6 +59,10 @@ public class Room
         {
             returnString += " " + exit;
         }
+        if(checkIfEmpty())
+                {
+                    returnString = "There are no exits!";
+                }
         return returnString;
     }
     
@@ -79,6 +85,24 @@ public class Room
     public String getDescription()
     {
         return description;
+    }
+    
+    /**
+     * Returns a full description of the room.
+     * @return The full description of the room.
+     */
+    public String getLongDescription()
+    {
+        return "You are " + description + ".\n" + getExitString() + "\n";
+    }
+    
+    /**
+     * Returns true if there are exits, false if there are no exits.
+     * @return true if there are exits, false if there are no exits.
+     */
+    public Boolean checkIfEmpty()
+    {
+        return exits.isEmpty();
     }
 
 }
