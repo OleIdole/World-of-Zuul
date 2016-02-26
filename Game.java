@@ -93,7 +93,10 @@ public class Game
     {
         System.out.println();
         System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("You are Zuul, the mighty rat of the sewers!");
+        System.out.println("Your mission is to gain full dominance of the sewers.");
+        System.out.println("To do this, you must explore every area and");
+        System.out.print(" find every item, as they contain great power!");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         System.out.println("You are " + currentRoom.getDescription());
@@ -123,7 +126,7 @@ public class Game
         boolean wantToQuit = false;
 
         if(command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            System.out.println("That doesn't make sense, do something else!");
             return false;
         }
 
@@ -150,8 +153,9 @@ public class Game
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("You are lost, but must keep going.");
+        System.out.println("There are many dangerous areas, proceed");
+        System.out.print(" with caution!");
         System.out.println();
         System.out.println("Your command words are:");
         System.out.println("   go quit help");
