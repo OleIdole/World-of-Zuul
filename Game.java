@@ -17,8 +17,6 @@
 
 public class Game 
 {
-    
-    //TEst kommentar
     private Parser parser;
     private Room currentRoom;
         
@@ -49,25 +47,60 @@ public class Game
      */
     private void createRooms()
     {
-        Room mainSewer, eastSewer, southSewer, westSewer, northSewer;
+        Room mainSewer, eastSewer, southSewer, westSewer, northSewer,
+                        massiveHole, bottom, tunnel, cave, trollCamp;
       
         // create the rooms
-        mainSewer = new Room("directly under the center of the city");
-        eastSewer = new Room("heading east through the main system");
-        southSewer = new Room("heading south through the main system");
-        westSewer = new Room("heading west through the main system");
-        northSewer = new Room("heading north through the main system");
+        mainSewer = new Room("directly under the center of the city.");
+        eastSewer = new Room("heading east through the main system.");
+        southSewer = new Room("heading south through the main system.");
+        westSewer = new Room("heading west through the main system.");
+        northSewer = new Room("heading north through the main system.");
+        massiveHole = new Room("standing next to a massive hole, there "
+                + "is a ladder.");
+        bottom = new Room("standing at the bottom of a massive hole, "
+                + "there are tons of spiders there! Get out!");
+        tunnel = new Room(" barely alive! The ladder collapsed, you managed "
+                + "to climb into a strange tunnel.");
+        cave = new Room("in a giant cave, there are torches on the walls. "
+                + "You hear strange voices echoing and it is too dark to "
+                + "go back.");
+        trollCamp = new Room("in a camp full of trolls, they spot you. "
+                + "One troll knocks you out, you are trapped.");
         
         // initialise room exits
+        
+        // mainSewer exits
         mainSewer.setExits("north", northSewer);
         mainSewer.setExits("east", eastSewer);
         mainSewer.setExits("west", westSewer);
         mainSewer.setExits("south", southSewer);
         
+        //eastSewer exits
         eastSewer.setExits("west", mainSewer);
+        
+        //westSewer exits
         westSewer.setExits("east", mainSewer);
+        
+        //southSewer exits
         southSewer.setExits("north", mainSewer);
+        
+        //northSewer exits
         northSewer.setExits("south", mainSewer);
+        northSewer.setExits("north", massiveHole);
+        
+        //massiveHole exits
+        massiveHole.setExits("south", northSewer);
+        massiveHole.setExits("down", bottom);
+        
+        //bottom exits
+        bottom.setExits("up", tunnel);
+        
+        //tunnel exits
+        tunnel.setExits("deeper", cave);
+        
+        //cave exits
+        cave.setExits("further", trollCamp);
 
         currentRoom = mainSewer;  // start game outside
     }
