@@ -1,3 +1,8 @@
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Class Room - a room in an adventure game.
  *
@@ -14,11 +19,13 @@
  */
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
+    private String description;
+    //TODO: remove all exits except hashmap
+    private Room northExit;
+    private Room southExit;
+    private Room eastExit;
+    private Room westExit;
+    private HashMap<String, Room> exits;
 
     /**
      * Create a room described "description". Initially, it has
@@ -29,6 +36,28 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
+        exits = new HashMap<String, Room>();
+    }
+    
+    public Room getExit(String direction)
+    {
+        Room nextRoom = exits.get(direction);
+        return nextRoom;
+    }
+    
+    public String getExitString()
+    {
+        String returnString = "Exits:";
+        for(String exit : exits.keySet())
+        {
+            returnString += " " + exit;
+        }
+        return returnString;
+    }
+    
+    public void setExits(String direction, Room neighbour)
+    {
+        exits.put(direction, neighbour);
     }
 
     /**
@@ -39,6 +68,7 @@ public class Room
      * @param south The south exit.
      * @param west The west exit.
      */
+    /*
     public void setExits(Room north, Room east, Room south, Room west) 
     {
         if(north != null)
@@ -50,7 +80,8 @@ public class Room
         if(west != null)
             westExit = west;
     }
-
+    */
+    
     /**
      * @return The description of the room.
      */

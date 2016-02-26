@@ -49,23 +49,27 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+        Room mainSewer, eastSewer, southSewer, westSewer, northSewer;
       
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        mainSewer = new Room("directly under the center of the city");
+        eastSewer = new Room("heading east through the main system");
+        southSewer = new Room("heading south through the main system");
+        westSewer = new Room("heading west through the main system");
+        northSewer = new Room("heading north through the main system");
         
         // initialise room exits
-        outside.setExits(null, theater, lab, pub);
-        theater.setExits(null, null, null, outside);
-        pub.setExits(null, outside, null, null);
-        lab.setExits(outside, office, null, null);
-        office.setExits(null, null, null, lab);
+        mainSewer.setExits("north", northSewer);
+        mainSewer.setExits("east", eastSewer);
+        mainSewer.setExits("west", westSewer);
+        mainSewer.setExits("south", southSewer);
+        
+        eastSewer.setExits("west", mainSewer);
+        westSewer.setExits("east", mainSewer);
+        southSewer.setExits("north", mainSewer);
+        northSewer.setExits("south", mainSewer);
 
-        currentRoom = outside;  // start game outside
+        currentRoom = mainSewer;  // start game outside
     }
 
     /**
@@ -95,25 +99,12 @@ public class Game
         System.out.println("Welcome to the World of Zuul!");
         System.out.println("You are Zuul, the mighty rat of the sewers!");
         System.out.println("Your mission is to gain full dominance of the sewers.");
-        System.out.println("To do this, you must explore every area and");
-        System.out.print(" find every item, as they contain great power!");
+        System.out.print("To do this, you must explore every area and");
+        System.out.println(" find every item, as they contain great power!");
+        System.out.println();
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println("You are " + currentRoom.getDescription());
-        System.out.print("Exits: ");
-        if(currentRoom.northExit != null) {
-            System.out.print("north ");
-        }
-        if(currentRoom.eastExit != null) {
-            System.out.print("east ");
-        }
-        if(currentRoom.southExit != null) {
-            System.out.print("south ");
-        }
-        if(currentRoom.westExit != null) {
-            System.out.print("west ");
-        }
-        System.out.println();
+        printLocationInfo();
     }
 
     /**
@@ -153,9 +144,10 @@ public class Game
      */
     private void printHelp() 
     {
+        System.out.println();
         System.out.println("You are lost, but must keep going.");
-        System.out.println("There are many dangerous areas, proceed");
-        System.out.print(" with caution!");
+        System.out.print("There are many dangerous areas, proceed");
+        System.out.println(" with caution!");
         System.out.println();
         System.out.println("Your command words are:");
         System.out.println("   go quit help");
@@ -177,40 +169,23 @@ public class Game
 
         // Try to leave current room.
         Room nextRoom = null;
-        if(direction.equals("north")) {
-            nextRoom = currentRoom.northExit;
-        }
-        if(direction.equals("east")) {
-            nextRoom = currentRoom.eastExit;
-        }
-        if(direction.equals("south")) {
-            nextRoom = currentRoom.southExit;
-        }
-        if(direction.equals("west")) {
-            nextRoom = currentRoom.westExit;
-        }
+        nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
             currentRoom = nextRoom;
-            System.out.println("You are " + currentRoom.getDescription());
-            System.out.print("Exits: ");
-            if(currentRoom.northExit != null) {
-                System.out.print("north ");
-            }
-            if(currentRoom.eastExit != null) {
-                System.out.print("east ");
-            }
-            if(currentRoom.southExit != null) {
-                System.out.print("south ");
-            }
-            if(currentRoom.westExit != null) {
-                System.out.print("west ");
-            }
-            System.out.println();
+            printLocationInfo();
         }
+    }
+
+    private void printLocationInfo() {
+        System.out.println("You are " + currentRoom.getDescription());
+
+        System.out.print(currentRoom.getExitString());
+        
+        System.out.println();
     }
 
     /** 
