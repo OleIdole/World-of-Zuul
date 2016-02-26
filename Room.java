@@ -1,7 +1,5 @@
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  * Class Room - a room in an adventure game.
@@ -20,11 +18,6 @@ import java.util.Set;
 public class Room 
 {
     private String description;
-    //TODO: remove all exits except hashmap
-    private Room northExit;
-    private Room southExit;
-    private Room eastExit;
-    private Room westExit;
     private HashMap<String, Room> exits;
 
     /**
@@ -39,12 +32,24 @@ public class Room
         exits = new HashMap<String, Room>();
     }
     
+    /**
+     * Returns the next room in the direction you request.
+     * 
+     * @param direction
+     * @return 
+     */
     public Room getExit(String direction)
     {
         Room nextRoom = exits.get(direction);
         return nextRoom;
     }
     
+    /**
+     * Return a description of the room's exits,
+     * for example, "Exits: north west".
+     * 
+     * @return A description of the available exits.
+     */
     public String getExitString()
     {
         String returnString = "Exits:";
@@ -55,34 +60,20 @@ public class Room
         return returnString;
     }
     
+    /**
+     * Sets exit direction from the room, and where
+     * you end up by going that direction.
+     * 
+     * @param direction Direction of the exit.
+     * @param neighbour The room in that direction.
+     */
     public void setExits(String direction, Room neighbour)
     {
         exits.put(direction, neighbour);
     }
-
-    /**
-     * Define the exits of this room.  Every direction either leads
-     * to another room or is null (no exit there).
-     * @param north The north exit.
-     * @param east The east east.
-     * @param south The south exit.
-     * @param west The west exit.
-     */
-    /*
-    public void setExits(Room north, Room east, Room south, Room west) 
-    {
-        if(north != null)
-            northExit = north;
-        if(east != null)
-            eastExit = east;
-        if(south != null)
-            southExit = south;
-        if(west != null)
-            westExit = west;
-    }
-    */
     
     /**
+     * Returns a description of the room.
      * @return The description of the room.
      */
     public String getDescription()
