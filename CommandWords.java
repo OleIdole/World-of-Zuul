@@ -39,13 +39,15 @@ public class CommandWords
         return false;
     }
     
-        public String allCommandWords()
+    /**
+     * prints all command words available.
+     */
+        public void showAll()
     {
-        String allCommands = "";
-        for(int i = 0; i < validCommands.length; i++)
+        for(String command : validCommands)
         {
-            allCommands += " " + validCommands[i].toString();
+            System.out.print(command + " ");
         }
-        return allCommands;
+        System.out.println();
     }
 }
