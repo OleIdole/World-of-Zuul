@@ -177,6 +177,10 @@ public class Game
         {
             fart();
         }
+        else if (commandWord.equals("wave"))
+        {
+            wave();
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -193,14 +197,13 @@ public class Game
      */
     private void printHelp() 
     {
-        CommandWords commandWords = new CommandWords();
         System.out.println();
         System.out.println("You are lost, but must keep going.");
         System.out.print("There are many dangerous areas, proceed");
         System.out.println(" with caution!");
         System.out.println();
         System.out.println("Your command words are:");
-        commandWords.showAll();
+        System.out.println(parser.showCommands());
     }
     
     /**
@@ -219,6 +222,12 @@ public class Game
     {
         System.out.println("You take a look around you, then fart loudly!");
         System.out.println("Something stinks!");
+    }
+    
+    private void wave()
+    {
+        System.out.println("You wave, there is no other person around.");
+        System.out.println("You stop waving because it looks stupid.");
     }
 
     /** 

@@ -60,6 +60,14 @@ public class Parser
         }
         else {
             return new Command(null, word2); 
-        }
+        }    
+    }
+    
+    /**
+     * Prints out a list of valid command words.
+     */
+    public String showCommands()
+    {
+        return commands.showAll();
     }
 }
