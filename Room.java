@@ -1,5 +1,6 @@
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Class Room - a room in an adventure game.
@@ -19,6 +20,7 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;
+    private HashMap<String, Item> itemsInRoom;
 
     /**
      * Create a room described "description". Initially, it has
@@ -30,6 +32,52 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<String, Room>();
+        itemsInRoom = new HashMap<String, Item>();
+    }
+    
+    
+    public void putItem(Item item)
+    {
+        this.itemsInRoom.put(item.getName(), item);
+    }
+    
+    public String getItemList()
+    {
+        Iterator<String> it = itemsInRoom.keySet().iterator();
+        String items = "Items: ";
+        
+        if(!it.hasNext())
+        {
+            items += "There are no items here";
+        }
+        
+        if(it.hasNext())
+        {
+            items += it.next() + " ";
+        }
+        return items;
+    }
+    
+    public String getItemsDetails()
+    {
+        Iterator<String> it = itemsInRoom.keySet().iterator();
+        String items = "Items: ";
+        
+        if(!it.hasNext())
+        {
+            items += "There are no items here";
+        }
+        
+        if(it.hasNext())
+        {
+            items += "\n" + it.next();
+        }
+        return items;
+    }
+    
+    public String getItemDetails(Item item)
+    {
+        return item.getLongDescription();
     }
     
     /**
@@ -59,7 +107,7 @@ public class Room
         {
             returnString += " " + exit;
         }
-        if(checkIfEmpty())
+        if(checkIfNoExits())
                 {
                     returnString = "There are no exits!";
                 }
@@ -93,14 +141,15 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString() + "\n";
+        return "You are " + description + ".\n" + getExitString() + "\n"
+                + getItemList();
     }
     
     /**
      * Returns true if there are exits, false if there are no exits.
      * @return true if there are exits, false if there are no exits.
      */
-    public Boolean checkIfEmpty()
+    public Boolean checkIfNoExits()
     {
         return exits.isEmpty();
     }

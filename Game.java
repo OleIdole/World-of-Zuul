@@ -74,33 +74,51 @@ public class Game
         mainSewer.setExits("north", northSewer);
         mainSewer.setExits("east", eastSewer);
         mainSewer.setExits("west", westSewer);
-        mainSewer.setExits("south", southSewer);
+        mainSewer.setExits("south", southSewer);   
+        // mainSewer items
+        mainSewer.putItem(new Item("pistol", "This is a big pistol", 5));
         
         //eastSewer exits
         eastSewer.setExits("west", mainSewer);
+        //eastSewer items
+        eastSewer.putItem(new Item("garbage", "A sack full of garbage", 10));
         
         //westSewer exits
         westSewer.setExits("east", mainSewer);
+        //westSewer items
+        westSewer.putItem(new Item("hamburger", "A nasty looking hamburger", 0.4));
         
         //southSewer exits
         southSewer.setExits("north", mainSewer);
+        //southSewer items
+        southSewer.putItem(new Item("pancakes", "Some rotten pancakes", 0.3));
         
         //northSewer exits
         northSewer.setExits("south", mainSewer);
         northSewer.setExits("north", massiveHole);
+        //northSewer items
+        northSewer.putItem(new Item("matches", "A pair of matches", 0.1));
         
         //massiveHole exits
         massiveHole.setExits("south", northSewer);
         massiveHole.setExits("down", bottom);
+        // massiveHole items
+        massiveHole.putItem(new Item("rock", "A large rock", 20));
         
         //bottom exits
         bottom.setExits("up", tunnel);
+        //bottom items
+        bottom.putItem(new Item("rope", "A long rope", 5));
         
         //tunnel exits
         tunnel.setExits("deeper", cave);
+        //tunnel items
+        tunnel.putItem(new Item("spade", "A metal spade", 4));
         
         //cave exits
         cave.setExits("further", trollCamp);
+        //cave items
+        cave.putItem(new Item("skeletons", "A pile of skeletons", 15));
 
         currentRoom = mainSewer;  // start game outside
     }
@@ -122,7 +140,7 @@ public class Game
             {
             finished = true;
             }
-            if(currentRoom.checkIfEmpty())
+            if(currentRoom.checkIfNoExits())
             {
                 System.out.println("GAME OVER!");
                 finished = true;
@@ -181,6 +199,10 @@ public class Game
         {
             wave();
         }
+        else if (commandWord.equals("inspect"))
+        {
+            inspect(command);
+        }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -224,12 +246,52 @@ public class Game
         System.out.println("Something stinks!");
     }
     
+    /**
+     * Here we perform a wave emote.
+     */
     private void wave()
     {
         System.out.println("You wave, there is no other person around.");
         System.out.println("You stop waving because it looks stupid.");
     }
-
+    
+    /**
+     * Here we inspect an item in order to get full details of it.
+     * This command consists of two words, first inspect, followed by
+     * the item you are going to inspect.
+     * This method checks if the commands are valid and uses the item name
+     * to retrieve full information about said item.
+     * 
+     * @param command Checks the users inputs so we can check if they type
+     * a valid command.
+     */
+    private void inspect(Command command)
+    {   
+        if(!command.hasSecondWord()) {
+        // if there is no second word, we don't know what to inspect...
+        System.out.println("Inspect what?");
+        }
+    
+        if(command.getSecondWord() == "pistol")
+        {
+            //TODO: fix method so that we can get all item details from
+            // requested item by writing a command like "inspect pistol".
+            // Also, replace the "pistol" from command.getSecondWord()
+            // with a set of all items in the room or something.
+            // currently the getSecondWord wont detect pistol for some reason.
+            
+            //String itemDetails = currentRoom.getItemDetails();
+            //System.out.println(itemDetails);
+            System.out.println("Check the inspect function, it is "
+                    + "not finished! This is tempfix.");
+        }
+        
+        if (command.getSecondWord() != "pistol")
+        {
+            System.out.println("Cant find that item.");
+        }
+    }
+    
     /** 
      * Try to go in one direction. If there is an exit, enter
      * the new room, otherwise print an error message.
