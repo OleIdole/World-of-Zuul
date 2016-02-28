@@ -267,23 +267,36 @@ public class Game
      * a valid command.
      */
     private void inspect(Command command)
-    {   
-        String secondWord = command.getSecondWord();
+    {           
         if(!command.hasSecondWord()) {
         // if there is no second word, we don't know what to inspect...
         System.out.println("Inspect what?");
         }
-    
+
+        /**
+         * If there is a second word in the command, it will go through
+         * this if else code.
+         */
+        String itemName = command.getSecondWord();
+        Item item = currentRoom.getItem(itemName);
         if(command.hasSecondWord())
         {
-        if(secondWord.equals("pistol"))
+            /**
+             * If the second word is a valid item name, then it will
+             * print out the details of that item.
+             */
+        if(currentRoom.checkForItem(itemName))
         {
-            System.out.println(currentRoom.getItemDetails(currentRoom.getItem("pistol")));
+            System.out.println(currentRoom.getItemDetails(item));
         }
         
+        /**
+         * if second word is not a valid item name, then it will say
+         * that you cant find that item.
+         */
         else
         {
-            System.out.println("Cant find an item called " + secondWord);
+            System.out.println("Cant find an item called " + itemName);
         }
         }
     }

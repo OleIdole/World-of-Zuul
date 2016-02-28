@@ -26,6 +26,7 @@ public class Room
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
      * "an open court yard".
+     * 
      * @param description The room's description.
      */
     public Room(String description) 
@@ -35,17 +36,44 @@ public class Room
         itemsInRoom = new HashMap<String, Item>();
     }
     
-    
+    /**
+     * Puts an item into the room.
+     * 
+     * @param item The item that is put into the room.
+     */
     public void putItem(Item item)
     {
         this.itemsInRoom.put(item.getName(), item);
     }
     
+    /**
+     * Returns the item that is requested by its name.
+     * 
+     * @param name This is the name of the item.
+     * @return Returns the item that is requested by its name.
+     */
     public Item getItem(String name)
     {
         return itemsInRoom.get(name);
     }
     
+    /**
+     * Checks if the input name is a valid name for an item in the room.
+     * If there is an item with that name, returns true, if not, false.
+     * 
+     * @param name Name of the item you want to check for.
+     * @return If there is an item with that name, returns true, if not, false.
+     */
+    public boolean checkForItem(String name)
+    {
+        return itemsInRoom.containsKey(name);
+    }
+    
+    /**
+     * Creates and returns a string with the list of all items in the room.
+     * 
+     * @return Returns a string with the list of all items in the room.
+     */
     public String getItemList()
     {
         Iterator<String> it = itemsInRoom.keySet().iterator();
@@ -63,23 +91,12 @@ public class Room
         return items;
     }
     
-    public String getItemsDetails()
-    {
-        Iterator<String> it = itemsInRoom.keySet().iterator();
-        String items = "Items: ";
-        
-        if(!it.hasNext())
-        {
-            items += "There are no items here";
-        }
-        
-        if(it.hasNext())
-        {
-            items += "\n" + it.next();
-        }
-        return items;
-    }
-    
+    /**
+     * Returns the full details of the item requested.
+     * 
+     * @param item The item that you want to get details about.
+     * @return Returns the full details of the item requested.
+     */
     public String getItemDetails(Item item)
     {
         return item.getLongDescription();
@@ -133,6 +150,7 @@ public class Room
     
     /**
      * Returns a description of the room.
+     * 
      * @return The description of the room.
      */
     public String getDescription()
@@ -142,6 +160,7 @@ public class Room
     
     /**
      * Returns a full description of the room.
+     * 
      * @return The full description of the room.
      */
     public String getLongDescription()
@@ -152,6 +171,7 @@ public class Room
     
     /**
      * Returns true if there are exits, false if there are no exits.
+     * 
      * @return true if there are exits, false if there are no exits.
      */
     public Boolean checkIfNoExits()
