@@ -267,12 +267,15 @@ public class Game
      */
     private void inspect(Command command)
     {   
+        String secondWord = command.getSecondWord();
         if(!command.hasSecondWord()) {
         // if there is no second word, we don't know what to inspect...
         System.out.println("Inspect what?");
         }
     
-        if(command.getSecondWord() == "pistol")
+        if(command.hasSecondWord())
+        {
+        if(secondWord == "pistol")
         {
             //TODO: fix method so that we can get all item details from
             // requested item by writing a command like "inspect pistol".
@@ -286,9 +289,10 @@ public class Game
                     + "not finished! This is tempfix.");
         }
         
-        if (command.getSecondWord() != "pistol")
+        if (secondWord != "pistol")
         {
-            System.out.println("Cant find that item.");
+            System.out.println("Cant find an item called " + secondWord);
+        }
         }
     }
     
