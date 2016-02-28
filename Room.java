@@ -41,6 +41,11 @@ public class Room
         this.itemsInRoom.put(item.getName(), item);
     }
     
+    public Item getItem(String name)
+    {
+        return itemsInRoom.get(name);
+    }
+    
     public String getItemList()
     {
         Iterator<String> it = itemsInRoom.keySet().iterator();
@@ -51,7 +56,7 @@ public class Room
             items += "There are no items here";
         }
         
-        if(it.hasNext())
+        while(it.hasNext())
         {
             items += it.next() + " ";
         }
@@ -141,8 +146,8 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString() + "\n"
-                + getItemList();
+        return "You are " + description + ".\n" + getExitString() + 
+                "\n" + getItemList();
     }
     
     /**

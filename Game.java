@@ -77,6 +77,7 @@ public class Game
         mainSewer.setExits("south", southSewer);   
         // mainSewer items
         mainSewer.putItem(new Item("pistol", "This is a big pistol", 5));
+        mainSewer.putItem(new Item("bread", "This bread has seen better days", 0.3));
         
         //eastSewer exits
         eastSewer.setExits("west", mainSewer);
@@ -275,21 +276,12 @@ public class Game
     
         if(command.hasSecondWord())
         {
-        if(secondWord == "pistol")
+        if(secondWord.equals("pistol"))
         {
-            //TODO: fix method so that we can get all item details from
-            // requested item by writing a command like "inspect pistol".
-            // Also, replace the "pistol" from command.getSecondWord()
-            // with a set of all items in the room or something.
-            // currently the getSecondWord wont detect pistol for some reason.
-            
-            //String itemDetails = currentRoom.getItemDetails();
-            //System.out.println(itemDetails);
-            System.out.println("Check the inspect function, it is "
-                    + "not finished! This is tempfix.");
+            System.out.println(currentRoom.getItemDetails(currentRoom.getItem("pistol")));
         }
         
-        if (secondWord != "pistol")
+        else
         {
             System.out.println("Cant find an item called " + secondWord);
         }

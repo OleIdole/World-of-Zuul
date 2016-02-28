@@ -20,7 +20,7 @@ public class Item
         this.description = description;
         this.weight = weight;
         
-    }
+    }   
     
     /**
      * Returns the name of the item.
