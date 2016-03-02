@@ -192,6 +192,10 @@ public class Game {
             back();
         } else if (commandWord.equals("who")) {
             who();
+        } else if (commandWord.equals("take")) {
+            take(command);
+        } else if (commandWord.equals("drop")) {
+            drop(command);
         } else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -236,6 +240,75 @@ public class Game {
     private void wave() {
         System.out.println("You wave, there is no other person around.");
         System.out.println("You stop waving because it looks stupid.");
+    }
+
+    /**
+     * Very similar to the inspect method. If you for example write "take
+     * pistol", then the first word take is correct. Then it will continue to
+     * the next word, which is pistol. For the first room this is also correct.
+     * Then it will put that item into the player's inventory.
+     *
+     * @param command The player's command written in the textbox.
+     */
+    private void take(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to take...
+            System.out.println("Take what?");
+        }
+
+        /**
+         * If there is a second word in the command, it will go through this if
+         * else code.
+         */
+        String itemName = command.getSecondWord();
+        Item item = player.getCurrentRoom().getItem(itemName);
+        if (command.hasSecondWord()) {
+            /**
+             * If the second word is a valid item name, then the player will
+             * take the item.
+             */
+            if (player.getCurrentRoom().checkForItem(itemName)) {
+                player.takeItem(item);
+            } /**
+             * if second word is not a valid item name, then the player will not
+             * take any item.
+             */
+            else {
+                System.out.println("Cant find an item called " + itemName);
+            }
+        }
+    }
+
+    /**
+     * TODO: write description!!
+     */
+    private void drop(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to drop...
+            System.out.println("drop what?");
+        }
+
+        /**
+         * If there is a second word in the command, it will go through this if
+         * else code.
+         */
+        String itemName = command.getSecondWord();
+        Item item = player.getCurrentRoom().getItem(itemName);
+        if (command.hasSecondWord()) {
+            /**
+             * If the second word is a valid item name, then the player will
+             * drop the item.
+             */
+            if (player.checkForItem(item)) {
+                player.dropItem(item);
+            } /**
+             * if second word is not a valid item name, then the player will not
+             * drop any item.
+             */
+            else {
+                System.out.println("Cant find an item called " + itemName);
+            }
+        }
     }
 
     /**
@@ -331,6 +404,10 @@ public class Game {
         }
     }
 
+    /**
+     * Prints out a detailed description of the room that the player currently
+     * is in.
+     */
     private void printLocationInfo() {
         System.out.println(player.getCurrentRoom().getLongDescription());
     }

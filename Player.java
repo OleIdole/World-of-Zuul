@@ -1,5 +1,6 @@
 
 import java.util.Stack;
+import java.util.ArrayList;
 
 /**
  * This class is specifically for the player of the game. The player is the one
@@ -18,11 +19,28 @@ public class Player {
     private Room currentRoom;
     private int maxCarryWeight;
     private Stack<Room> prevRooms;
+    private ArrayList<Item> items;
 
     public Player(String name, int maxCarryWeight) {
         this.name = name;
         this.maxCarryWeight = maxCarryWeight;
         prevRooms = new Stack<>();
+    }
+
+    public void takeItem(Item item) {
+        items.add(item);
+    }
+
+    public void dropItem(Item item) {
+        items.remove(item);
+    }
+
+    public boolean checkForItem(Item item) {
+        boolean found = false;
+        if (items.contains(item)) {
+            found = true;
+        }
+        return found;
     }
 
     /**
