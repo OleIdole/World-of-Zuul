@@ -1,5 +1,4 @@
 
-import java.util.Stack;
 /**
  *  This class is the main class of the "World of Zuul" application.
  *  "World of Zuul" is a very simple, text based adventure game.  Users
@@ -19,16 +18,15 @@ import java.util.Stack;
 public class Game {
 
     private Parser parser;
-    private Room currentRoom;
-    private Stack <Room> prevRooms;
+    private Player player;
 
     /**
      * Create the game and initialise its internal map.
      */
     public Game() {
-        createRooms();
         parser = new Parser();
-        prevRooms = new Stack<>();
+        player = new Player("Ole Martin", 150);
+        createRooms();
     }
 
     /**
@@ -44,7 +42,8 @@ public class Game {
     }
 
     /**
-     * Create all the rooms and link their exits together.
+     * Create all the rooms and link their exits together. Places items in the
+     * rooms. Sets the room where the player starts.
      */
     private void createRooms() {
         Room mainSewer, eastSewer, southSewer, westSewer, northSewer,
@@ -120,7 +119,8 @@ public class Game {
         //cave items
         cave.putItem(new Item("skeletons", "A pile of skeletons", 15));
 
-        currentRoom = mainSewer;  // start game outside
+        // Set the starting position of the player.
+        player.setCurrentRoom(mainSewer);
     }
 
     /**
@@ -137,7 +137,7 @@ public class Game {
             if (processCommand(command)) {
                 finished = true;
             }
-            if (currentRoom.checkIfNoExits()) {
+            if (player.getCurrentRoom().checkIfNoExits()) {
                 System.out.println("GAME OVER!");
                 finished = true;
             }
@@ -190,6 +190,8 @@ public class Game {
             inspect(command);
         } else if (commandWord.equals("back")) {
             back();
+        } else if (commandWord.equals("who")) {
+            who();
         } else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -217,7 +219,7 @@ public class Game {
      * room.
      */
     private void look() {
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(player.getCurrentRoom().getLongDescription());
     }
 
     /**
@@ -235,22 +237,33 @@ public class Game {
         System.out.println("You wave, there is no other person around.");
         System.out.println("You stop waving because it looks stupid.");
     }
-    
+
     /**
-     * This function makes the player able to go backwards.
-     * For each room entered, we add the previous room to a stack,
-     * this is basicly a history log of where we went.
-     * Then we can use this function to go systematically backwards
-     * with the stack.
-     * Stack stores Rooms and first one in is last one out.
+     * This function makes the player able to go backwards. For each room
+     * entered, we add the previous room to a stack, this is basicly a history
+     * log of where we went. Then we can use this function to go systematically
+     * backwards with the stack. Stack stores Rooms and first one in is last one
+     * out.
      */
     private void back() {
-        if(!prevRooms.isEmpty()) {
-        currentRoom = prevRooms.pop();
-        printLocationInfo();
-        }
-        else
+
+        if (player.goBack()) {
+            System.out.println("Going back!");
+            printLocationInfo();
+        } else {
             System.out.println("You can't go back!");
+        }
+    }
+
+    /**
+     * Gives a description of who the player is.
+     */
+    private void who() {
+        System.out.println("You are " + player.getName()
+                + " and you can lift an incredible " + player.getMaxCarryWeight()
+                + "kg!");
+        System.out.println("There are probably not many rats stronger "
+                + "than you!");
     }
 
     /**
@@ -273,14 +286,14 @@ public class Game {
          * else code.
          */
         String itemName = command.getSecondWord();
-        Item item = currentRoom.getItem(itemName);
+        Item item = player.getCurrentRoom().getItem(itemName);
         if (command.hasSecondWord()) {
             /**
              * If the second word is a valid item name, then it will print out
              * the details of that item.
              */
-            if (currentRoom.checkForItem(itemName)) {
-                System.out.println(currentRoom.getItemDetails(item));
+            if (player.getCurrentRoom().checkForItem(itemName)) {
+                System.out.println(player.getCurrentRoom().getItemDetails(item));
             } /**
              * if second word is not a valid item name, then it will say that
              * you cant find that item.
@@ -308,19 +321,18 @@ public class Game {
         // Pushes currentRoom into a stack for prevRooms
         // before currentRoom is changed.
         Room nextRoom = null;
-        nextRoom = currentRoom.getExit(direction);
+        nextRoom = player.getCurrentRoom().getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("You can't go there!");
         } else {
-            prevRooms.push(currentRoom);
-            currentRoom = nextRoom;
+            player.goRoom(nextRoom);
             printLocationInfo();
         }
     }
 
     private void printLocationInfo() {
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(player.getCurrentRoom().getLongDescription());
     }
 
     /**
