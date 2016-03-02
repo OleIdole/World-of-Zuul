@@ -236,6 +236,14 @@ public class Game {
         System.out.println("You stop waving because it looks stupid.");
     }
     
+    /**
+     * This function makes the player able to go backwards.
+     * For each room entered, we add the previous room to a stack,
+     * this is basicly a history log of where we went.
+     * Then we can use this function to go systematically backwards
+     * with the stack.
+     * Stack stores Rooms and first one in is last one out.
+     */
     private void back() {
         if(!prevRooms.isEmpty()) {
         currentRoom = prevRooms.pop();
@@ -297,6 +305,8 @@ public class Game {
         String direction = command.getSecondWord();
 
         // Try to leave current room.
+        // Pushes currentRoom into a stack for prevRooms
+        // before currentRoom is changed.
         Room nextRoom = null;
         nextRoom = currentRoom.getExit(direction);
 
