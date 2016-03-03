@@ -38,6 +38,7 @@ public class Parser {
         String word1 = null;
         String word2 = null;
 
+        System.out.println("");     // Space for easier reading
         System.out.print("> ");     // print prompt
 
         inputLine = reader.nextLine();

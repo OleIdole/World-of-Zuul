@@ -269,12 +269,14 @@ public class Game {
              */
             if (player.getCurrentRoom().checkForItem(itemName)) {
                 player.takeItem(item);
+                System.out.println("You take the " + itemName + " and place it "
+                        + "in your inventory.");
             } /**
              * if second word is not a valid item name, then the player will not
              * take any item.
              */
             else {
-                System.out.println("Cant find an item called " + itemName);
+                System.out.println("There is no " + itemName + " in the room.");
             }
         }
     }
@@ -301,12 +303,13 @@ public class Game {
              */
             if (player.checkForItem(item)) {
                 player.dropItem(item);
+                System.out.println("You drop the " + itemName + ".");
             } /**
              * if second word is not a valid item name, then the player will not
              * drop any item.
              */
             else {
-                System.out.println("Cant find an item called " + itemName);
+                System.out.println("You dont have any " + itemName);
             }
         }
     }

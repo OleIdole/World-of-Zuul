@@ -25,6 +25,7 @@ public class Player {
         this.name = name;
         this.maxCarryWeight = maxCarryWeight;
         prevRooms = new Stack<>();
+        items = new ArrayList<>();
     }
 
     public void takeItem(Item item) {
