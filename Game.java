@@ -76,6 +76,8 @@ public class Game {
         // mainSewer items
         mainSewer.putItem(new Item("pistol", "This is a big pistol", 5));
         mainSewer.putItem(new Item("bread", "This bread has seen better days", 0.3));
+        mainSewer.putItem(new Item("cellphone", "This cellphone is extremely old "
+                + "and heavy", 500));
 
         //eastSewer exits
         eastSewer.setExits("west", mainSewer);
@@ -196,6 +198,8 @@ public class Game {
             take(command);
         } else if (commandWord.equals("drop")) {
             drop(command);
+        } else if (commandWord.equals("inventory")) {
+            checkInventory();
         } else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -242,6 +246,10 @@ public class Game {
         System.out.println("You stop waving because it looks stupid.");
     }
 
+    private void checkInventory() {
+        System.out.println(player.getItemsCarriedAndWeight());
+    }
+
     /**
      * Very similar to the inspect method. If you for example write "take
      * pistol", then the first word take is correct. Then it will continue to
@@ -267,10 +275,20 @@ public class Game {
              * If the second word is a valid item name, then the player will
              * take the item.
              */
+            // TODO: remove item from the room!
             if (player.getCurrentRoom().checkForItem(itemName)) {
-                player.takeItem(item);
-                System.out.println("You take the " + itemName + " and place it "
-                        + "in your inventory.");
+                double weightLimit = player.getWeightLimit();
+                double itemWeight = item.getWeight();
+                if (weightLimit - itemWeight >= 0) {
+                    player.takeItem(item);
+                    System.out.println("You take the " + itemName + " and place it "
+                            + "in your inventory.");
+                } else {
+                    System.out.println("The item is too heavy to carry!");
+                    System.out.println("If you could manage to increase your "
+                            + "carry capacity by " + (itemWeight - weightLimit)
+                            + "kg then you could carry it.");
+                }
             } /**
              * if second word is not a valid item name, then the player will not
              * take any item.
@@ -301,6 +319,7 @@ public class Game {
              * If the second word is a valid item name, then the player will
              * drop the item.
              */
+            // TODO: Remove the item from the room!
             if (player.checkForItem(item)) {
                 player.dropItem(item);
                 System.out.println("You drop the " + itemName + ".");
@@ -309,7 +328,7 @@ public class Game {
              * drop any item.
              */
             else {
-                System.out.println("You dont have any " + itemName);
+                System.out.println("You dont have any " + itemName + ".");
             }
         }
     }
