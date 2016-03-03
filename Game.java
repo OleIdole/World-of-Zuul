@@ -99,6 +99,7 @@ public class Game {
         northSewer.setExits("north", massiveHole);
         //northSewer items
         northSewer.putItem(new Item("matches", "A pair of matches", 0.1));
+        northSewer.putItem(new Item("cookie", "A magic cookie, it looks tasty!", 0.15));
 
         //massiveHole exits
         massiveHole.setExits("south", northSewer);
@@ -199,6 +200,8 @@ public class Game {
         } else if (commandWord.equals("drop")) {
             drop(command);
         } else if (commandWord.equals("inventory")) {
+            eat(command);
+        } else if (commandWord.equals("eat")) {
             checkInventory();
         } else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -248,6 +251,41 @@ public class Game {
 
     private void checkInventory() {
         System.out.println(player.getItemsCarriedAndWeight());
+    }
+
+    /**
+     * TODO: write description!!
+     */
+    private void eat(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to eat...
+            System.out.println("Eat what?");
+        }
+
+        /**
+         * If there is a second word in the command, it will go through this if
+         * else code.
+         */
+        String itemName = command.getSecondWord();
+        Item item = player.getCurrentRoom().getItem(itemName);
+        if (command.hasSecondWord()) {
+            /**
+             * If the second word is a valid item name, and it is edible then
+             * the player will eat the item.
+             */
+            // TODO: Remove the item from the inventory!
+            // TODO: eat effect and edible check.
+            if (player.checkForItem(item)) {
+                player.dropItem(item);
+                System.out.println("You eat the " + itemName + ".");
+            } /**
+             * if second word is not a valid item name, then the player will not
+             * drop any item.
+             */
+            else {
+                System.out.println("You dont have any " + itemName + ".");
+            }
+        }
     }
 
     /**
@@ -305,7 +343,7 @@ public class Game {
     private void drop(Command command) {
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to drop...
-            System.out.println("drop what?");
+            System.out.println("Drop what?");
         }
 
         /**
@@ -319,7 +357,7 @@ public class Game {
              * If the second word is a valid item name, then the player will
              * drop the item.
              */
-            // TODO: Remove the item from the room!
+            // TODO: Add the item from the room!
             if (player.checkForItem(item)) {
                 player.dropItem(item);
                 System.out.println("You drop the " + itemName + ".");
