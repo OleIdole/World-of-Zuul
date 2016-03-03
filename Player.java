@@ -11,7 +11,8 @@ import java.util.ArrayList;
  */
 /**
  *
- * @author OleMartin
+ * @author  Ole Martin Hanstveit
+ * @version 2016.03.03
  */
 public class Player {
 
@@ -28,11 +29,10 @@ public class Player {
         items = new ArrayList<>();
     }
 
-    public void increaseMaxCarryWeight(double increase)
-    {
+    public void increaseMaxCarryWeight(double increase) {
         this.maxCarryWeight += increase;
     }
-    
+
     /**
      * Takes the requested item by adding it from the items array.
      *

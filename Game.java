@@ -12,8 +12,8 @@
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  *
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.07.31
+ * @author  Ole Martin Hanstveit
+ * @version 2016.03.03
  */
 public class Game {
 
@@ -267,7 +267,8 @@ public class Game {
     }
 
     /**
-     * TODO: write description!!
+     * Eats selected item if it is in the player's inventory and it is edible.
+     * This also removes the item from the player's inventory.
      */
     private void eat(Command command) {
         if (!command.hasSecondWord()) {
@@ -284,17 +285,15 @@ public class Game {
         if (command.hasSecondWord()) {
             /**
              * If the second word is a valid item name, and it is edible then
-             * the player will eat the item.
+             * the player will eat the item. Also item is removed from the
+             * player's inventory
              */
-            // TODO: Remove the item from the inventory!
-            // TODO: eat effect and edible check.
             if (player.checkForItem(item)) {
                 if (item.checkEdible()) {
                     player.removeItem(item);
                     System.out.println("You eat the " + itemName + ".");
                     System.out.println(item.getEatEffect());
-                    if(item.getName().equals("cookie"))
-                    {
+                    if (item.getName().equals("cookie")) {
                         player.increaseMaxCarryWeight(600);
                         System.out.println("Try picking up the cellphone "
                                 + "with you new incredible strength");
@@ -363,7 +362,8 @@ public class Game {
     }
 
     /**
-     * TODO: write description!!
+     * If the player has the item in the inventory, he will then drop the item.
+     * The item will also be added into the room it is dropped in.
      */
     private void drop(Command command) {
         if (!command.hasSecondWord()) {
@@ -382,7 +382,6 @@ public class Game {
              * If the second word is a valid item name, then the player will
              * drop the item. Also this adds the item to the room.
              */
-            // TODO: Add the item from the room!
             if (player.checkForItem(item)) {
                 player.removeItem(item);
                 player.getCurrentRoom().putItem(item);

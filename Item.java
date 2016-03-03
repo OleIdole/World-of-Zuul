@@ -5,7 +5,8 @@
 
 /**
  *
- * @author OleMartin
+ * @author  Ole Martin Hanstveit
+ * @version 2016.03.03
  */
 public class Item {
 
@@ -25,10 +26,21 @@ public class Item {
 
     }
 
+    /**
+     * Returns the description eatEffect which describes the effect after eating
+     * a certain item.
+     *
+     * @return eturns the description eatEffect.
+     */
     public String getEatEffect() {
         return this.eatEffect;
     }
 
+    /**
+     * Returns true if the item is edible, false if it isn't.
+     *
+     * @return Returns true if the item is edible, false if it isn't.
+     */
     public boolean checkEdible() {
         return this.edible;
     }

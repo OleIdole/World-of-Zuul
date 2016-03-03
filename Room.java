@@ -13,8 +13,8 @@ import java.util.Iterator;
  * For each direction, the room stores a reference to the neighboring room, or
  * null if there is no exit in that direction.
  *
- * @author Michael Kölling and David J. Barnes
- * @version 2011.07.31
+ * @author  Ole Martin Hanstveit
+ * @version 2016.03.03
  */
 public class Room {
 
@@ -42,10 +42,10 @@ public class Room {
     public void putItem(Item item) {
         this.itemsInRoom.put(item.getName(), item);
     }
-    
+
     /**
      * Removes an item from the room.
-     * 
+     *
      * @param item The item that is removed from the room.
      */
     public void removeItem(Item item) {
