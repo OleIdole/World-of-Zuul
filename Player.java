@@ -28,12 +28,17 @@ public class Player {
         items = new ArrayList<>();
     }
 
+    public void increaseMaxCarryWeight(double increase)
+    {
+        this.maxCarryWeight += increase;
+    }
+    
     /**
      * Takes the requested item by adding it from the items array.
      *
      * @param item The item you want to take.
      */
-    public void takeItem(Item item) {
+    public void addItem(Item item) {
         items.add(item);
     }
 
@@ -42,7 +47,7 @@ public class Player {
      *
      * @param item The item you want to remove.
      */
-    public void dropItem(Item item) {
+    public void removeItem(Item item) {
         items.remove(item);
     }
 
@@ -59,6 +64,24 @@ public class Player {
             found = true;
         }
         return found;
+    }
+
+    /**
+     * Returns an item by requesting it with its itemName. Goes through the
+     * array of items and if its found, it will get the item that is connected
+     * to the name.
+     *
+     * @param itemName The name of the item you want to get.
+     * @return Returns an item by requesting it with its itemName.
+     */
+    public Item getItem(String itemName) {
+        Item searchedItem = null;
+        for (Item item : items) {
+            if (item.getName().equals(itemName)) {
+                searchedItem = item;
+            }
+        }
+        return searchedItem;
     }
 
     /**

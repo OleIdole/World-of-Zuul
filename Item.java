@@ -12,12 +12,25 @@ public class Item {
     private String name;
     private String description;
     private double weight;
+    private boolean edible;
+    private String eatEffect;
 
-    public Item(String name, String description, double weight) {
+    public Item(String name, String description, double weight, boolean edible,
+            String eatEffect) {
         this.name = name;
         this.description = description;
         this.weight = weight;
+        this.edible = edible;
+        this.eatEffect = eatEffect;
 
+    }
+
+    public String getEatEffect() {
+        return this.eatEffect;
+    }
+
+    public boolean checkEdible() {
+        return this.edible;
     }
 
     /**

@@ -74,53 +74,66 @@ public class Game {
         mainSewer.setExits("west", westSewer);
         mainSewer.setExits("south", southSewer);
         // mainSewer items
-        mainSewer.putItem(new Item("pistol", "This is a big pistol", 5));
-        mainSewer.putItem(new Item("bread", "This bread has seen better days", 0.3));
-        mainSewer.putItem(new Item("cellphone", "This cellphone is extremely old "
-                + "and heavy", 500));
+        mainSewer.putItem(new Item("pistol", "This is a big pistol", 5, false,
+                null));
+        mainSewer.putItem(new Item("bread", "This bread has seen better days",
+                0.3, true, "You feel an incredible pain in you stomach "
+                + "followed by intense vomiting!"));
+        mainSewer.putItem(new Item("cellphone", "This cellphone is extremely"
+                + " old and heavy", 500, false, null));
 
         //eastSewer exits
         eastSewer.setExits("west", mainSewer);
         //eastSewer items
-        eastSewer.putItem(new Item("garbage", "A sack full of garbage", 10));
+        eastSewer.putItem(new Item("garbage", "A sack full of garbage", 10,
+                true, "What were you thinking? The garbage nearly kills you, "
+                + "dont ever eat that shit again!"));
 
         //westSewer exits
         westSewer.setExits("east", mainSewer);
         //westSewer items
-        westSewer.putItem(new Item("hamburger", "A nasty looking hamburger", 0.4));
+        westSewer.putItem(new Item("hamburger", "A nasty looking hamburger",
+                0.4, true, "Despite of its looks, the burger still taste"
+                + "great, was probably a triple cheeseburger."));
 
         //southSewer exits
         southSewer.setExits("north", mainSewer);
         //southSewer items
-        southSewer.putItem(new Item("pancakes", "Some rotten pancakes", 0.3));
+        southSewer.putItem(new Item("pancakes", "Some rotten pancakes", 0.3,
+                true, "That was a horrible idea. You lose consciousness for a moment."));
 
         //northSewer exits
         northSewer.setExits("south", mainSewer);
         northSewer.setExits("north", massiveHole);
         //northSewer items
-        northSewer.putItem(new Item("matches", "A pair of matches", 0.1));
-        northSewer.putItem(new Item("cookie", "A magic cookie, it looks tasty!", 0.15));
+        northSewer.putItem(new Item("matches", "A pair of matches", 0.1, false,
+                null));
+        northSewer.putItem(new Item("cookie", "A magic cookie, it looks tasty!",
+                0.15, true, "You feel an incredible strength rush through "
+                + "your body! Even Chuck Norris would struggle "
+                + "in a fight with you."));
 
         //massiveHole exits
         massiveHole.setExits("south", northSewer);
         massiveHole.setExits("down", bottom);
         // massiveHole items
-        massiveHole.putItem(new Item("rock", "A large rock", 20));
+        massiveHole.putItem(new Item("rock", "A large rock", 20, false, null));
 
         //bottom exits
         bottom.setExits("up", tunnel);
         //bottom items
-        bottom.putItem(new Item("rope", "A long rope", 5));
+        bottom.putItem(new Item("rope", "A long rope", 5, false, null));
 
         //tunnel exits
         tunnel.setExits("deeper", cave);
         //tunnel items
-        tunnel.putItem(new Item("spade", "A metal spade", 4));
+        tunnel.putItem(new Item("spade", "A metal spade", 4, false, null));
 
         //cave exits
         cave.setExits("further", trollCamp);
         //cave items
-        cave.putItem(new Item("skeletons", "A pile of skeletons", 15));
+        cave.putItem(new Item("skeletons", "A pile of skeletons", 15, false,
+                null));
 
         // Set the starting position of the player.
         player.setCurrentRoom(mainSewer);
@@ -200,9 +213,9 @@ public class Game {
         } else if (commandWord.equals("drop")) {
             drop(command);
         } else if (commandWord.equals("inventory")) {
-            eat(command);
-        } else if (commandWord.equals("eat")) {
             checkInventory();
+        } else if (commandWord.equals("eat")) {
+            eat(command);
         } else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
@@ -267,7 +280,7 @@ public class Game {
          * else code.
          */
         String itemName = command.getSecondWord();
-        Item item = player.getCurrentRoom().getItem(itemName);
+        Item item = player.getItem(itemName);
         if (command.hasSecondWord()) {
             /**
              * If the second word is a valid item name, and it is edible then
@@ -276,8 +289,20 @@ public class Game {
             // TODO: Remove the item from the inventory!
             // TODO: eat effect and edible check.
             if (player.checkForItem(item)) {
-                player.dropItem(item);
-                System.out.println("You eat the " + itemName + ".");
+                if (item.checkEdible()) {
+                    player.removeItem(item);
+                    System.out.println("You eat the " + itemName + ".");
+                    System.out.println(item.getEatEffect());
+                    if(item.getName().equals("cookie"))
+                    {
+                        player.increaseMaxCarryWeight(600);
+                        System.out.println("Try picking up the cellphone "
+                                + "with you new incredible strength");
+                    }
+                }
+                if (!item.checkEdible()) {
+                    System.out.println("You can't eat the " + itemName + "!");
+                }
             } /**
              * if second word is not a valid item name, then the player will not
              * drop any item.
@@ -311,14 +336,14 @@ public class Game {
         if (command.hasSecondWord()) {
             /**
              * If the second word is a valid item name, then the player will
-             * take the item.
+             * take the item. Also this will remove the item from the room.
              */
-            // TODO: remove item from the room!
             if (player.getCurrentRoom().checkForItem(itemName)) {
                 double weightLimit = player.getWeightLimit();
                 double itemWeight = item.getWeight();
                 if (weightLimit - itemWeight >= 0) {
-                    player.takeItem(item);
+                    player.addItem(item);
+                    player.getCurrentRoom().removeItem(item);
                     System.out.println("You take the " + itemName + " and place it "
                             + "in your inventory.");
                 } else {
@@ -351,15 +376,16 @@ public class Game {
          * else code.
          */
         String itemName = command.getSecondWord();
-        Item item = player.getCurrentRoom().getItem(itemName);
+        Item item = player.getItem(itemName);
         if (command.hasSecondWord()) {
             /**
              * If the second word is a valid item name, then the player will
-             * drop the item.
+             * drop the item. Also this adds the item to the room.
              */
             // TODO: Add the item from the room!
             if (player.checkForItem(item)) {
-                player.dropItem(item);
+                player.removeItem(item);
+                player.getCurrentRoom().putItem(item);
                 System.out.println("You drop the " + itemName + ".");
             } /**
              * if second word is not a valid item name, then the player will not

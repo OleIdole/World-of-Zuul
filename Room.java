@@ -42,6 +42,15 @@ public class Room {
     public void putItem(Item item) {
         this.itemsInRoom.put(item.getName(), item);
     }
+    
+    /**
+     * Removes an item from the room.
+     * 
+     * @param item The item that is removed from the room.
+     */
+    public void removeItem(Item item) {
+        this.itemsInRoom.remove(item.getName(), item);
+    }
 
     /**
      * Returns the item that is requested by its name.
