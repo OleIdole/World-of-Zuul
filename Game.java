@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+
 /**
  *  This class is the main class of the "World of Zuul" application.
  *  "World of Zuul" is a very simple, text based adventure game.  Users
@@ -19,6 +21,7 @@ public class Game {
 
     private Parser parser;
     private Player player;
+    private ArrayList<Room> allRooms;
 
     /**
      * Create the game and initialise its internal map.
@@ -26,6 +29,7 @@ public class Game {
     public Game() {
         parser = new Parser();
         player = new Player("Ole Martin", 150);
+        allRooms = new ArrayList<>();
         createRooms();
     }
 
@@ -53,7 +57,8 @@ public class Game {
         mainSewer = new Room("directly under the center of the city.");
         eastSewer = new Room("heading east through the main system.");
         southSewer = new Room("heading south through the main system.");
-        westSewer = new Room("heading west through the main system.");
+        westSewer = new TransporterRoom("in a weird place with mysterious "+
+                "doors!");
         northSewer = new Room("heading north through the main system.");
         massiveHole = new Room("standing next to a massive hole, there "
                 + "is a ladder.");
@@ -66,6 +71,18 @@ public class Game {
                 + "go back.");
         trollCamp = new Room("in a camp full of trolls, they spot you. "
                 + "One troll knocks you out, you are trapped.");
+        
+        // make a list of all rooms
+        allRooms.add(mainSewer);
+        allRooms.add(eastSewer);
+        allRooms.add(southSewer);
+        allRooms.add(westSewer);
+        allRooms.add(northSewer);
+        allRooms.add(massiveHole);
+        allRooms.add(bottom);
+        allRooms.add(tunnel);
+        allRooms.add(cave);
+        allRooms.add(trollCamp);
 
         // initialise room exits
         // mainSewer exits
@@ -511,4 +528,13 @@ public class Game {
             return true;  // signal that we want to quit
         }
     }
+    
+    /**
+     * Returns a list of all the rooms.
+     * @return Returns a list of all the rooms.
+     */
+        public ArrayList getAllRooms()
+            {
+                return allRooms;
+            }
 }
